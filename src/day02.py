@@ -45,5 +45,17 @@ def part1(input: str):
     return sum
 
 
+def game_power_level(game: Game):
+    min_cubes = {"red": 0, "green": 0, "blue": 0}
+    for game_set in game.sets:
+        for color, count in game_set.items():
+            min_cubes[color] = max(min_cubes[color], count)
+    return min_cubes["red"] * min_cubes["green"] * min_cubes["blue"]
+
+
 def part2(input: str):
-    return 0
+    sum = 0
+    for line in input.splitlines():
+        game = Game(line)
+        sum += game_power_level(game)
+    return sum

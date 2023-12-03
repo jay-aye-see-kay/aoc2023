@@ -1,6 +1,6 @@
 import unittest
 
-from src.day02 import Game, is_game_valid, part1
+from src.day02 import Game, is_game_valid, part1, part2
 
 
 class TestDay2(unittest.TestCase):
@@ -23,3 +23,8 @@ class TestDay2(unittest.TestCase):
         with open("./inputs/day-02.txt") as f:
             input = f.read()
         self.assertEqual(part1(input), 2317)
+
+    def test_part2_real(self):
+        with open("./inputs/day-02.txt") as f:
+            input = f.read()
+        self.assertEqual(part2(input), 74804)
