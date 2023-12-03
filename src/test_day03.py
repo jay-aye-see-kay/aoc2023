@@ -17,11 +17,12 @@ sample_input = """467..114..
 
 class TestDay2(unittest.TestCase):
     def test_parse_input(self):
-        symbols, numbers = parse_input(sample_input)
+        symbols, numbers, maybe_gears = parse_input(sample_input)
         self.assertEqual(len(symbols), 6)
         self.assertEqual(len(numbers), 10)
+        self.assertEqual(len(maybe_gears), 3)
 
-    def test_day1_sample(self):
+    def test_part1_sample(self):
         self.assertEqual(part1(sample_input), 4361)
 
     def test_part1_real(self):
@@ -29,8 +30,10 @@ class TestDay2(unittest.TestCase):
             input = f.read()
         self.assertEqual(part1(input), 530849)
 
+    def test_part2_sample(self):
+        self.assertEqual(part2(sample_input), 467835)
 
-# def test_part2_real(self):
-#     with open("./inputs/day-02.txt") as f:
-#         input = f.read()
-#     self.assertEqual(part2(input), 74804)
+    def test_part2_real(self):
+        with open("./inputs/day-03.txt") as f:
+            input = f.read()
+        self.assertEqual(part2(input), 84877350)  # too low

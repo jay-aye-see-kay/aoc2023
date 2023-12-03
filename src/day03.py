@@ -36,6 +36,7 @@ class Number:
 def parse_input(input: str):
     num_buffer = ""
     symbols: list[Coord] = []
+    maybe_gears: list[Coord] = []
     numbers: list[Number] = []
     for y, line in enumerate(input.splitlines()):
         for x, char in enumerate(line):
@@ -46,22 +47,21 @@ def parse_input(input: str):
             else:
                 symbols.append(Coord(x, y))
 
-            if not char.isdecimal() and num_buffer != "":
+            if char == "*":
+                maybe_gears.append(Coord(x, y))
+
+            is_eol = x + 1 == len(line)
+            if (is_eol or not char.isdecimal()) and num_buffer != "":
                 # digit ended
                 numbers.append(Number(num_buffer, Coord(x - len(num_buffer), y)))
                 num_buffer = ""
 
-        if num_buffer != "":
-            # catch digits ending at the end of the line
-            numbers.append(Number(num_buffer, Coord(x - len(num_buffer), y)))
-            num_buffer = ""
-
-    return (symbols, numbers)
+    return (symbols, numbers, maybe_gears)
 
 
 def part1(input: str):
     sum = 0
-    symbols, numbers = parse_input(input)
+    symbols, numbers, _ = parse_input(input)
     for number in numbers:
         number_has_adjacent_symbol = False
         bounding_box = number.bounding_box()
@@ -75,4 +75,14 @@ def part1(input: str):
 
 
 def part2(input: str):
-    return 0
+    sum = 0
+    _, numbers, maybe_gears = parse_input(input)
+    for maybe_gear in maybe_gears:
+        adj_numbers: list[Number] = []
+        for number in numbers:
+            if number.bounding_box().contains(maybe_gear):
+                adj_numbers.append(number)
+        if len(adj_numbers) == 2:
+            sum += int(adj_numbers[0].value) * int(adj_numbers[1].value)
+
+    return sum
