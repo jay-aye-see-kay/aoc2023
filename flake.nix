@@ -10,10 +10,11 @@
       {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            python311
-            pkgs.python311Packages.isort
-            pkgs.python311Packages.black
+            aoc-cli
             just
+            pkgs.python311Packages.black
+            pkgs.python311Packages.isort
+            python311
           ];
         };
       });
