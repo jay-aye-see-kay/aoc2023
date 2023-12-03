@@ -1,6 +1,6 @@
 import unittest
 
-from src.day01 import get_first_and_last_digit, part1
+from src.day01 import get_first_and_last_digit, part1, part2
 
 
 class TestReplaceNames(unittest.TestCase):
@@ -26,3 +26,19 @@ treb7uchet
         with open("./inputs/day-01.txt") as f:
             input = f.read()
         self.assertEqual(part1(input), 56397)
+
+    def test_part2_sample(self):
+        input = """two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen
+"""
+        self.assertEqual(part2(input), 281)
+
+    def test_part2_real(self):
+        with open("./inputs/day-01.txt") as f:
+            input = f.read()
+        self.assertEqual(part2(input), 55701)

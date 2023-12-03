@@ -20,5 +20,6 @@ download DAY:
   aoc download \
     --day "$day" \
     --year 2023 \
+    --overwrite \
     --input-file "day-$day.txt" \
     --puzzle-file "day-$day-puzzle.md"
