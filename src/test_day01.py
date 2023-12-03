@@ -3,7 +3,7 @@ import unittest
 from src.day01 import get_first_and_last_digit, part1, part2
 
 
-class TestReplaceNames(unittest.TestCase):
+class TestDay1(unittest.TestCase):
     def test_get_first_and_last_digit(self):
         sample_lines = [
             ["1abc2", 12],
