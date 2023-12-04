@@ -15,7 +15,7 @@ sample_input = """467..114..
 """
 
 
-class TestDay2(unittest.TestCase):
+class TestDay3(unittest.TestCase):
     def test_parse_input(self):
         symbols, numbers, maybe_gears = parse_input(sample_input)
         self.assertEqual(len(symbols), 6)
