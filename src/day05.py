@@ -38,12 +38,39 @@ def map_lookup(map: Map, value: int):
     return value
 
 
+def seed_to_location(maps: dict[str, Map], seed: int):
+    num = seed
+    for _, map in maps.items():
+        num = map_lookup(map, num)
+    return num
+
+
 def part1(input: str):
     seeds, maps = parse_input(input)
     locations = []
     for seed in seeds:
-        num = seed
-        for _, map in maps.items():
-            num = map_lookup(map, num)
-        locations.append(num)
+        locations.append(seed_to_location(maps, seed))
     return min(locations)
+
+
+def part2(input: str):
+    seeds, maps = parse_input(input)
+    min_location = 100000000000000000
+    x = 0
+    while x < len(seeds):
+        seeds_start = seeds[x]
+        seeds_len = seeds[x + 1]
+        x += 2
+        for seed in range(seeds_start, seeds_start + seeds_len):
+            if seed % 10000 == 0:
+                print(f"{100*((seed-seeds_start)/seeds_len)}% through range {(x/2)-1}")
+            location = seed_to_location(maps, seed)
+            if location < min_location:
+                min_location = location
+    return min_location
+
+
+if __name__ == "__main__":
+    with open("./inputs/day-05.txt") as f:
+        input = f.read()
+    print(part2(input))

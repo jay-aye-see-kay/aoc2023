@@ -1,6 +1,6 @@
 import unittest
 
-from src.day05 import MapRange, map_lookup, parse_input, part1
+from src.day05 import MapRange, map_lookup, parse_input, part1, part2
 
 sample_input = """seeds: 79 14 55 13
 
@@ -67,3 +67,12 @@ class TestDay5(unittest.TestCase):
         with open("./inputs/day-05.txt") as f:
             input = f.read()
         self.assertEqual(part1(input), 26273516)
+
+    def test_part2_sample(self):
+        location_num = part2(sample_input)
+        self.assertEqual(location_num, 46)
+
+    def test_part2_real(self):
+        with open("./inputs/day-05.txt") as f:
+            input = f.read()
+        self.assertEqual(part2(input), 0)
