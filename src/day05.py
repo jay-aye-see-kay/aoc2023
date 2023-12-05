@@ -6,7 +6,15 @@ class MapRange:
         self.length = length
 
 
-Map = list[MapRange]
+class Map:
+    def __init__(self, ranges: list[MapRange]):
+        self.ranges = ranges
+
+    def lookup(self, value: int):
+        for m in self.ranges:
+            if value >= m.source_start and value <= m.source_end:
+                return value + m.offset
+        return value
 
 
 def parse_input(input: str):
@@ -19,27 +27,20 @@ def parse_input(input: str):
     for para in paragraphs[1:]:
         lines = para.splitlines()
         map_name = lines[0].replace(" map:", "")
-        map = []
+        map_ranges = []
         for values_str in lines[1:]:
             map_values = [int(s) for s in values_str.split(" ")]
-            map.append(MapRange(*map_values))
-        sorted(map, key=lambda m: m.length)
-        maps[map_name] = map
+            map_ranges.append(MapRange(*map_values))
+        # sorted(map_ranges, key=lambda m: m.length)
+        maps[map_name] = Map(map_ranges)
 
     return seeds, maps
-
-
-def map_lookup(map: Map, value: int):
-    for m in map:
-        if value >= m.source_start and value <= m.source_end:
-            return value + m.offset
-    return value
 
 
 def seed_to_location(maps: dict[str, Map], seed: int):
     num = seed
     for _, map in maps.items():
-        num = map_lookup(map, num)
+        num = map.lookup(num)
     return num
 
 
@@ -60,8 +61,8 @@ def part2(input: str):
         seeds_len = seeds[x + 1]
         x += 2
         for seed in range(seeds_start, seeds_start + seeds_len):
-            if seed % 10000 == 0:
-                print(f"{100*((seed-seeds_start)/seeds_len)}% through range {(x/2)-1}")
+            # if seed % 10000 == 0:
+            #     print(f"{100*((seed-seeds_start)/seeds_len)}% through range {(x/2)-1}")
             location = seed_to_location(maps, seed)
             if location < min_location:
                 min_location = location
