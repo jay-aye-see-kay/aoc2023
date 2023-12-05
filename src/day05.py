@@ -31,7 +31,6 @@ def parse_input(input: str):
         for values_str in lines[1:]:
             map_values = [int(s) for s in values_str.split(" ")]
             map_ranges.append(MapRange(*map_values))
-        # sorted(map_ranges, key=lambda m: m.length)
         maps[map_name] = Map(map_ranges)
 
     return seeds, maps
@@ -52,17 +51,19 @@ def part1(input: str):
     return min(locations)
 
 
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i : i + n]
+
+
 def part2(input: str):
     seeds, maps = parse_input(input)
     min_location = 100000000000000000
-    x = 0
-    while x < len(seeds):
-        seeds_start = seeds[x]
-        seeds_len = seeds[x + 1]
-        x += 2
+    for i, (seeds_start, seeds_len) in enumerate(chunks(seeds, 2)):
         for seed in range(seeds_start, seeds_start + seeds_len):
-            # if seed % 10000 == 0:
-            #     print(f"{100*((seed-seeds_start)/seeds_len)}% through range {(x/2)-1}")
+            if seed % 100000 == 0:
+                print(f"{100*((seed-seeds_start)/seeds_len):.2f}% through range {i+1}")
             location = seed_to_location(maps, seed)
             if location < min_location:
                 min_location = location
