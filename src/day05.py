@@ -1,11 +1,9 @@
-from dataclasses import dataclass
-
-
-@dataclass
 class MapRange:
-    dest_start: int
-    source_start: int
-    length: int
+    def __init__(self, dest_start: int, source_start: int, length: int):
+        self.source_start = source_start
+        self.source_end = source_start + length
+        self.offset = dest_start - source_start
+        self.length = length
 
 
 Map = list[MapRange]
@@ -25,6 +23,7 @@ def parse_input(input: str):
         for values_str in lines[1:]:
             map_values = [int(s) for s in values_str.split(" ")]
             map.append(MapRange(*map_values))
+        sorted(map, key=lambda m: m.length)
         maps[map_name] = map
 
     return seeds, maps
@@ -32,9 +31,8 @@ def parse_input(input: str):
 
 def map_lookup(map: Map, value: int):
     for m in map:
-        if value >= m.source_start and value <= m.source_start + m.length:
-            offset = value - m.source_start
-            return m.dest_start + offset
+        if value >= m.source_start and value <= m.source_end:
+            return value + m.offset
     return value
 
 
@@ -71,6 +69,6 @@ def part2(input: str):
 
 
 if __name__ == "__main__":
-    with open("./inputs/day-05.txt") as f:
+    with open("./inputs/day-05-mini.txt") as f:
         input = f.read()
     print(part2(input))
